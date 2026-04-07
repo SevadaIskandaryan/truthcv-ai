@@ -4,6 +4,7 @@ from rest_framework import status
 from rest_framework.parsers import MultiPartParser
 
 from analyzer.services.cv_parser_service import parse_pdf, build_cv_data
+from analyzer.serializers.upload_cv_serializer import UploadCVSerializer
 
 
 class UploadCVView(APIView):
@@ -11,19 +12,17 @@ class UploadCVView(APIView):
 
     def post(self, request):
 
-        file_obj = request.FILES.get("file")
-
-        if not file_obj:
+        serializer = UploadCVSerializer(data=request.data)
+        
+        if not serializer.is_valid():
+            # Keep previous error shape for backwards compatibility
+            error_msg = serializer.errors.get("file", ["Invalid request"])[0]
             return Response(
-                {"error": "No file uploaded. Use 'file' field."},
+                {"error": error_msg},
                 status=status.HTTP_400_BAD_REQUEST
             )
-
-        if not file_obj.name.lower().endswith(".pdf"):
-            return Response(
-                {"error": "Only PDF files are supported."},
-                status=status.HTTP_400_BAD_REQUEST
-            )
+            
+        file_obj = serializer.validated_data["file"]
 
         try:
             text = parse_pdf(file_obj)

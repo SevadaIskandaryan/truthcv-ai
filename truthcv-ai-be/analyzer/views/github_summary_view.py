@@ -4,18 +4,23 @@ from rest_framework import status
 
 from analyzer.services.github_service import get_github_data
 from analyzer.services.insight_service import generate_insights
+from analyzer.serializers.github_analysis_serializer import GithubAnalysisSerializer
 
 
 class GithubAnalysisView(APIView):
 
     def get(self, request):
-        username = request.query_params.get("username")
-
-        if not username:
+        serializer = GithubAnalysisSerializer(data=request.query_params)
+        
+        if not serializer.is_valid():
+            # Keep previous error shape for backwards compatibility with frontend
+            error_msg = serializer.errors.get("username", ["Invalid request"])[0]
             return Response(
-                {"error": "username required"},
+                {"error": error_msg},
                 status=status.HTTP_400_BAD_REQUEST
             )
+            
+        username = serializer.validated_data["username"]
 
         github_data = get_github_data(username)
 
