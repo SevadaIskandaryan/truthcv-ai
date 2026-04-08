@@ -8,7 +8,7 @@ const ResultCard = ({ result }) => {
   return (
     <div className="card result-container">
       <h2>Analysis Results</h2>
-      
+
       {/* CV Data Section */}
       <div className="result-section">
         <h3>Resume Information</h3>
@@ -35,7 +35,7 @@ const ResultCard = ({ result }) => {
       )}
 
       {/* Insights Section */}
-      {insights && insights.length > 0 && (
+      {/* {insights && insights.length > 0 && (
         <div className="result-section highlight-section">
           <h3>AI Insights</h3>
           <ul className="insight-list">
@@ -44,7 +44,7 @@ const ResultCard = ({ result }) => {
             ))}
           </ul>
         </div>
-      )}
+      )} */}
     </div>
   );
 };
