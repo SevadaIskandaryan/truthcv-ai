@@ -13,17 +13,30 @@ const PdfViewer = ({ file }) => {
 
   if (!file) return null;
 
+  // Enhance URL to disable default PDF viewer toolbars
+  const iframeSrc = url ? `${url}#toolbar=0&navpanes=0&scrollbar=0` : '';
+
   return (
     <div className="pdf-viewer-card card">
-      <h3>Uploaded Document</h3>
-      <div className="pdf-container">
+      <div className="pdf-header">
+        <h3>Resume Preview</h3>
         {url && (
+          <a href={url} target="_blank" rel="noopener noreferrer" className="pdf-open-link">
+            Open Full PDF ↗
+          </a>
+        )}
+      </div>
+      
+      <p className="pdf-hint">
+        Preview your resume while reviewing insights &rarr;
+      </p>
+
+      <div className="pdf-container">
+        {iframeSrc && (
           <iframe 
-            src={url} 
-            title="PDF Viewer" 
-            width="100%" 
-            height="600px" 
-            style={{ border: 'none', borderRadius: '4px' }}
+            className="pdf-iframe"
+            src={iframeSrc} 
+            title="PDF Preview" 
           />
         )}
       </div>
