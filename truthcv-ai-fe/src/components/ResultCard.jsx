@@ -104,7 +104,7 @@ const ResultCard = ({ result }) => {
           <div>
             <h4 style={{ marginBottom: '0.5rem', color: 'var(--text-muted)' }}>Profile Signals</h4>
             <ul className="info-list">
-              <li><strong>Quality Score:</strong> {github_data.repo_quality_score} / 100</li>
+              <li><strong>Total Repo Quality Score:</strong> {github_data.repo_quality_score} / 100</li>
               <li><strong>Language Diversity:</strong> {github_data.language_diversity_score} / 100</li>
             </ul>
           </div>
